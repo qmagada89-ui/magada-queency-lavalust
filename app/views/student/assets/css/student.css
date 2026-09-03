@@ -1,0 +1,301 @@
+/* ============================================================
+   Student Information Page — LavaLust Lab Activity
+   Palette: black + red + orange
+   ============================================================ */
+
+:root {
+  --bg: #0b0a09;
+  --surface: #161211;
+  --surface-2: #1e1815;
+  --border: #2b221d;
+  --red: #e63946;
+  --red-deep: #b3241e;
+  --orange: #f77f00;
+  --text: #f4eee7;
+  --text-muted: #a89b90;
+  --radius-lg: 18px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+  --gradient: linear-gradient(135deg, var(--red) 0%, var(--orange) 100%);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--bg);
+  background-image: radial-gradient(circle at 50% -10%, rgba(247, 127, 0, 0.16), transparent 55%);
+  color: var(--text);
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: 'Sora', 'Inter', sans-serif;
+  margin: 0 0 .5rem;
+  line-height: 1.2;
+}
+
+a { color: inherit; }
+
+code {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: .1rem .4rem;
+  font-size: .9em;
+  color: var(--orange);
+}
+
+/* ---------- layout ---------- */
+
+.wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+.nav {
+  display: flex;
+  gap: .5rem;
+  justify-content: center;
+  padding: 2rem 1rem 1rem;
+}
+
+.nav a {
+  text-decoration: none;
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: .9rem;
+  letter-spacing: .01em;
+  padding: .55rem 1.25rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  transition: color .2s ease, background .2s ease, border-color .2s ease;
+}
+
+.nav a:hover {
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.nav a.active {
+  color: var(--bg);
+  background: var(--gradient);
+}
+
+.footer {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: .85rem;
+  padding: 3rem 1rem 2rem;
+}
+
+/* ---------- notice banner ---------- */
+
+.notice {
+  background: var(--surface);
+  border: 1px solid var(--red-deep);
+  border-left: 4px solid var(--red);
+  border-radius: var(--radius-sm);
+  padding: .9rem 1.1rem;
+  font-size: .92rem;
+  margin-bottom: 1.5rem;
+}
+
+/* ---------- hero card ---------- */
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  animation: rise .5s ease both;
+}
+
+.hero {
+  padding: 2.5rem 2rem;
+  position: relative;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 5px;
+  background: var(--gradient);
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  font-size: .75rem;
+  font-weight: 600;
+  color: var(--orange);
+  margin: 0 0 .75rem;
+}
+
+.hero h1 {
+  font-size: clamp(1.5rem, 4vw, 2.1rem);
+}
+
+.lead {
+  color: var(--text-muted);
+  max-width: 46ch;
+}
+
+.btn {
+  display: inline-block;
+  margin-top: 1.25rem;
+  padding: .8rem 1.5rem;
+  border-radius: 999px;
+  background: var(--gradient);
+  color: var(--bg);
+  font-weight: 700;
+  text-decoration: none;
+  font-size: .95rem;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px -8px rgba(230, 57, 70, .55);
+}
+
+/* ---------- mini card grid ---------- */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .9rem;
+  margin: 1.25rem 0 2.5rem;
+}
+
+.mini-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.1rem;
+}
+
+.mini-card p {
+  margin: .5rem 0 0;
+  font-size: .85rem;
+  color: var(--text-muted);
+}
+
+.tag {
+  display: inline-block;
+  font-size: .7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--red);
+  background: rgba(230, 57, 70, .12);
+  border: 1px solid rgba(230, 57, 70, .35);
+  padding: .2rem .55rem;
+  border-radius: 999px;
+}
+
+/* ---------- ID card (profile page) ---------- */
+
+.id-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin: 1.5rem 0 3rem;
+  animation: rise .5s ease both;
+}
+
+.id-card__band {
+  background: var(--gradient);
+  padding: .85rem 1.5rem;
+}
+
+.band-label {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  font-size: .78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--bg);
+}
+
+.id-card__body {
+  padding: 2.25rem 2rem 2rem;
+  text-align: center;
+}
+
+.avatar {
+  width: 72px;
+  height: 72px;
+  margin: -3.75rem auto 1rem;
+  border-radius: 50%;
+  background: var(--surface-2);
+  border: 3px solid var(--surface);
+  outline: 2px solid var(--orange);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  font-size: 1.6rem;
+  color: var(--orange);
+}
+
+.id-card h1 {
+  font-size: 1.4rem;
+}
+
+.muted {
+  color: var(--text-muted);
+  font-size: .9rem;
+  margin: 0 0 1.75rem;
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 1.5rem;
+  text-align: left;
+  margin: 0;
+  padding-top: 1.5rem;
+  border-top: 1px dashed var(--border);
+}
+
+.field dt {
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--text-muted);
+  margin-bottom: .2rem;
+}
+
+.field dd {
+  margin: 0;
+  font-size: .97rem;
+  font-weight: 500;
+}
+
+/* ---------- motion ---------- */
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 640px) {
+  .grid { grid-template-columns: 1fr; }
+  .fields { grid-template-columns: 1fr; }
+  .hero { padding: 2rem 1.4rem; }
+}
