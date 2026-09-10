@@ -45,4 +45,5 @@ $config['middlewares'] = [];
 
 $config['middlewares'] = array(
     'student_access' => load_class('StudentMiddleware', 'middlewares'),
+    'auth' => load_class('AuthMiddleware', 'middlewares'),
 );

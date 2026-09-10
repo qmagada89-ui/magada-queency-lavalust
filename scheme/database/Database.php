@@ -268,6 +268,20 @@ class Database {
             PDO::ATTR_EMULATE_PREPARES   => false,
         );
 
+if ($driver === 'mysql' && !empty($database_config['ssl_ca'])) {
+    if (class_exists('Pdo\\Mysql') && defined('Pdo\\Mysql::ATTR_SSL_CA')) {
+        // PHP 8.5+
+        $options[\Pdo\Mysql::ATTR_SSL_CA] = $database_config['ssl_ca'];
+        $options[\Pdo\Mysql::ATTR_SSL_VERIFY_SERVER_CERT] = false; // TEMP diagnostic only
+    } elseif (defined('PDO::MYSQL_ATTR_SSL_CA')) {
+        // PHP < 8.5
+        $options[PDO::MYSQL_ATTR_SSL_CA] = $database_config['ssl_ca'];
+        $options[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = false; // TEMP diagnostic only
+    } else {
+        throw new PDOException('pdo_mysql extension is not loaded — cannot use SSL options.');
+    }
+}
+
         try {
             $this->db = new PDO($dsn, $username, $password, $options);
             $this->driver = $this->db->getAttribute(PDO::ATTR_DRIVER_NAME);
