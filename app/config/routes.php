@@ -48,7 +48,33 @@ $router->get('/', 'Welcome::index');
 $router->get('/student', 'StudentController::index');
 $router->get('/student/profile', 'StudentController::profile')->middleware('student_access');
 
+if (getenv('APP_ENV') !== 'production') {
+    $router->get('create-migration/{migration_class}', 'MigrationController::create_migration');
+    $router->get('migrate',      'MigrationController::migrate');
+    $router->get('rollback',     'MigrationController::rollback');
+    $router->get('rollback-all', 'MigrationController::rollback_all');
+    $router->get('refresh',      'MigrationController::refresh');
+    $router->get('status',       'MigrationController::status');
+}
+
+/* ---------- Auth API (public) ---------- */
+$router->post('api/auth/register', 'AuthController::register');
+$router->post('api/auth/login',    'AuthController::login');
+$router->post('api/auth/refresh',  'AuthController::refresh');
+$router->post('api/auth/logout',   'AuthController::logout');
+$router->get('api/auth/me',        'AuthController::me');
+
+/* ---------- Product API (JWT protected) ---------- */
+$router->get('api/products',         'ProductController::index');
+$router->get('api/products/{id}',    'ProductController::show');
+$router->post('api/products',        'ProductController::store');
+$router->put('api/products/{id}',    'ProductController::update');
+$router->delete('api/products/{id}', 'ProductController::destroy');
+
+/*
+
 $router->get('/users', 'UsersController::index');
+
 
 $router->match('/register', 'AuthController::register', ['GET', 'POST']);
 $router->match('/login', 'AuthController::login', ['GET', 'POST']);
@@ -66,3 +92,5 @@ $router->post('/products/edit/{id}', 'ProductController::edit')->middleware('aut
 $router->get('/products/delete/{id}', 'ProductController::delete')->middleware('auth');
 
 $router->get('/', 'ProductController::index')->middleware('auth');
+*/
+

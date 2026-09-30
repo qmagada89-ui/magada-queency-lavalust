@@ -1,5 +1,8 @@
 <?php
-
+/*
+| Generated with: php lava migration create-migration create_refresh_tokens_table
+| (Skip if your project already ships a refresh_tokens migration.)
+*/
 class Create_refresh_tokens_table {
 
     private $_lava;
@@ -7,48 +10,26 @@ class Create_refresh_tokens_table {
     public function __construct()
     {
         $this->_lava = lava_instance();
-        $this->_lava->call->dbforge();
+        $this->_lava->call->database();
     }
 
     public function up()
     {
-        if ($this->_lava->dbforge->table_exists('refresh_tokens')) {
-            return;
-        }
-
-        $this->_lava->dbforge
-            ->add_field([
-                'id' => [
-                    'type'           => 'INT',
-                    'unsigned'       => TRUE,
-                    'auto_increment' => TRUE,
-                    'null'           => FALSE,
-                ],
-                'user_id' => [
-                    'type'     => 'INT',
-                    'unsigned' => TRUE,
-                    'null'     => FALSE,
-                ],
-                'token' => [
-                    'type' => 'TEXT',
-                    'null' => FALSE,
-                ],
-                'expires_at' => [
-                    'type' => 'DATETIME',
-                    'null' => FALSE,
-                ],
-                'jti' => [
-                    'type' => 'TEXT',
-                    'null' => FALSE,
-                ],
-            ])
-            ->add_key('id', primary: TRUE)
-            ->add_key('user_id', name: 'user_id_idx')
-            ->create_table('refresh_tokens');
+        $this->_lava->db->raw("
+            CREATE TABLE IF NOT EXISTS refresh_tokens (
+                id          INT(11) NOT NULL AUTO_INCREMENT,
+                user_id     INT(11) NOT NULL,
+                token       TEXT NOT NULL,
+                expires_at  DATETIME NOT NULL,
+                jti         VARCHAR(64) NULL,
+                PRIMARY KEY (id),
+                KEY idx_refresh_user (user_id)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+        ");
     }
 
     public function down()
     {
-        $this->_lava->dbforge->drop_table('refresh_tokens');
+        $this->_lava->db->raw("DROP TABLE IF EXISTS refresh_tokens");
     }
 }

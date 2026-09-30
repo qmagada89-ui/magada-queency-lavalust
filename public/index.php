@@ -1,4 +1,34 @@
 <?php
+
+// ---- 1. Tiny .env loader ----
+$__env = dirname(__DIR__) . '/.env';
+if (is_file($__env)) {
+    foreach (file($__env, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $__line) {
+        $__line = trim($__line);
+        if ($__line === '' || $__line[0] === '#' || strpos($__line, '=') === false) continue;
+        [$__k, $__v] = array_map('trim', explode('=', $__line, 2));
+        $__v = trim($__v, "\"'");
+        if (getenv($__k) === false) {
+            putenv("$__k=$__v");
+            $_ENV[$__k] = $__v;
+        }
+    }
+}
+
+// ---- 2. CORS preflight ----
+if (($_SERVER['REQUEST_METHOD'] ?? '') === 'OPTIONS') {
+    $allowed = array_map('trim', explode(',', getenv('FRONTEND_ORIGIN') ?: 'http://localhost:5173'));
+    $origin  = $_SERVER['HTTP_ORIGIN'] ?? '';
+    if (in_array($origin, $allowed, true) || in_array('*', $allowed, true)) {
+        header('Access-Control-Allow-Origin: ' . ($origin ?: '*'));
+        header('Vary: Origin');
+    }
+    header('Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS');
+    header('Access-Control-Allow-Headers: Content-Type, Authorization');
+    header('Access-Control-Max-Age: 86400');
+    http_response_code(204);
+    exit;
+}
 define('PREVENT_DIRECT_ACCESS', TRUE);
 /**
  * ------------------------------------------------------------------

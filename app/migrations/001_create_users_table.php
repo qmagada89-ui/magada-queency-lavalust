@@ -1,5 +1,10 @@
 <?php
-
+/*
+| Generated with: php lava migration create-migration create_users_table
+| Keep the file name the generator gave you; paste this class in.
+| (Skip this file if your project already ships a users migration —
+|  check with: php lava migration status)
+*/
 class Create_users_table {
 
     private $_lava;
@@ -7,73 +12,26 @@ class Create_users_table {
     public function __construct()
     {
         $this->_lava = lava_instance();
-        $this->_lava->call->dbforge();
+        $this->_lava->call->database();
     }
 
     public function up()
     {
-        if ($this->_lava->dbforge->table_exists('users')) {
-            return;
-        }
-
-        $this->_lava->dbforge
-            ->add_field([
-                'id' => [
-                    'type'           => 'INT',
-                    'constraint'     => 11,
-                    'unsigned'       => TRUE,
-                    'auto_increment' => TRUE,
-                    'null'           => FALSE,
-                ],
-                'username' => [
-                    'type'       => 'VARCHAR',
-                    'constraint' => 100,
-                    'null'       => FALSE,
-                ],
-                'email' => [
-                    'type'       => 'VARCHAR',
-                    'constraint' => 255,
-                    'null'       => FALSE,
-                    'unique'     => TRUE,
-                ],
-                'password' => [
-                    'type'       => 'VARCHAR',
-                    'constraint' => 255,
-                    'null'       => FALSE,
-                ],
-                'role' => [
-                    'type'       => 'ENUM',
-                    'constraint' => "'admin','moderator','user'",
-                    'null'       => FALSE,
-                    'default'    => 'user',
-                ],
-                'is_active' => [
-                    'type'       => 'TINYINT',
-                    'constraint' => 1,
-                    'unsigned'   => TRUE,
-                    'null'       => FALSE,
-                    'default'    => 1,
-                ],
-                'created_at' => [
-                    'type'    => 'DATETIME',
-                    'null'    => FALSE,
-                    'default' => 'CURRENT_TIMESTAMP',
-                ],
-                'updated_at' => [
-                    'type'    => 'DATETIME',
-                    'null'    => TRUE,
-                    'default' => NULL,
-                ],
-            ])
-            ->add_key('id', primary: TRUE)
-            ->add_key('username', unique: TRUE, name: 'username_unique')
-            ->add_key('email', name: 'email_idx')
-            ->add_key('role', name: 'role_idx')
-            ->create_table('users');
+        $this->_lava->db->raw("
+            CREATE TABLE IF NOT EXISTS users (
+                id          INT(11) NOT NULL AUTO_INCREMENT,
+                username    VARCHAR(50)  NOT NULL UNIQUE,
+                email       VARCHAR(100) NOT NULL UNIQUE,
+                password    VARCHAR(255) NOT NULL,
+                role        VARCHAR(20)  DEFAULT 'user',
+                created_at  TIMESTAMP    NULL DEFAULT CURRENT_TIMESTAMP,
+                PRIMARY KEY (id)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+        ");
     }
 
     public function down()
     {
-        $this->_lava->dbforge->drop_table('users');
+        $this->_lava->db->raw("DROP TABLE IF EXISTS users");
     }
 }
